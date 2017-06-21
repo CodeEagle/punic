@@ -9,6 +9,7 @@ from flufl.enum import Enum
 from memoize import mproperty
 from pathlib2 import Path
 import logging
+import os
 
 from .semantic_version import *
 
