@@ -10,6 +10,7 @@ from memoize import mproperty
 from pathlib2 import Path
 import logging
 import os
+from .config import config
 
 from .semantic_version import *
 
@@ -139,7 +140,12 @@ class ProjectIdentifier(object):
         self.remote_url = remote_url
         if overrides and self.project_name in overrides:
             override_url = overrides[self.project_name]
-            logging.info('Overriding {} with git URL {}'.format(self.project_name, override_url))
+            toLog = 'Overriding {} with git URL {}'.format(self.project_name, override_url)
+            hadLog = any(toLog in s for s in config.override_logs)
+            if hadLog == False:
+                config.override_logs.append(toLog)
+                logging.info(toLog)
+
             if override_url.startswith("file://~/") :
                 user = os.environ["USER"]
                 url = override_url.replace("file://~/", "file:///Users/{}/".format(user))

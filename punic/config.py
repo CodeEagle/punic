@@ -51,6 +51,7 @@ class Config(object):
 
         self.verbose = False
         self.echo = False
+        self.override_logs = []
 
         self.continuous_integration = 'CI' in os.environ
         if self.continuous_integration:
