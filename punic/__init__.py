@@ -116,8 +116,11 @@ class Punic(object):
                     # print('SKIP?')
                     return False
             return True
-
+        total = len(checkouts)
+        building_index = 1
         for checkout in checkouts:
+            logging.debug("<ref>Processing</ref>: <ref>{}</ref> / <rev>{}</rev> ...".format(building_index, total))
+            building_index += 1
             checkout.prepare()
             for project in checkout.projects:
                 for platform in platforms:
