@@ -58,10 +58,7 @@ class Checkout(object):
                 self.repository.checkout(self.revision)
                 logging.debug('<sub>Copying project to <ref>Carthage/Checkouts</ref></sub>')
                 if self.checkout_path.exists():
-                    logging.debug('<ref>self.checkout_path.exists</ref>, removing')
                     shutil.rmtree(self.checkout_path, ignore_errors=True)
-                    logging.debug('<ref>self.checkout_path.exists</ref>, removing done')
-                logging.debug('<ref>do copy done</ref>')
                 shutil.copytree(self.repository.path, self.checkout_path, symlinks=True, ignore=shutil.ignore_patterns('.git'))
 
         if not self.checkout_path.exists():
