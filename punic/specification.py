@@ -21,12 +21,23 @@ elif six.PY3:
     import urllib.parse as urlparse
 
 
+
 class Specification(object):
     def __init__(self, identifier, predicate = None):
         # type: (str, VersionPredicate)
         self.identifier = identifier
         self.predicate = predicate
         self.raw_string = None
+
+    @classmethod
+    def dealPath(self, path, folder):
+        local_path = path
+        if path.startswith("../") :
+             local_path = path.replace("../", "")
+             local_folder = os.path.dirname(folder)
+             return Specification.dealPath(local_path, local_folder)
+        else :
+             return "file://{}/{}".format(folder, path)
 
     @classmethod
     def cartfile_string(cls, string, use_ssh=False, overrides=None):
@@ -150,8 +161,16 @@ class ProjectIdentifier(object):
                 user = os.environ["USER"]
                 url = override_url.replace("file://~/", "file:///Users/{}/".format(user))
                 self.remote_url = url
-            else:
+            elif override_url.startswith("local://") :
+                url = override_url.replace("local://", "")
+                currentPath = os.environ["PWD"]
+                logging.info("stripe local: {} ---> {}".format(override_url, url))
+                path = Specification.dealPath(url, currentPath)
+                logging.info("local path: {} ---> {}".format(override_url, path))
+                self.remote_url = path
+            else :
                 self.remote_url = override_url
+
 
     @mproperty
     def full_identifier(self):
