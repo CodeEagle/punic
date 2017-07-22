@@ -164,9 +164,7 @@ class ProjectIdentifier(object):
             elif override_url.startswith("local://") :
                 url = override_url.replace("local://", "")
                 currentPath = os.environ["PWD"]
-                logging.info("stripe local: {} ---> {}".format(override_url, url))
                 path = Specification.dealPath(url, currentPath)
-                logging.info("local path: {} ---> {}".format(override_url, path))
                 self.remote_url = path
             else :
                 self.remote_url = override_url
