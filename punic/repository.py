@@ -98,6 +98,7 @@ class Repository(object):
         logging.debug('Checking out <ref>{}</ref> @ revision <rev>{}</rev>'.format(self, revision))
         self.check_work_directory()
         try:
+            #logging.debug('Checking out <ref>{}</ref> @ revision <rev>{}</rev>, type: <rev>{}</rev>'.format(self.path, revision.sha, revision.revision_type))
             runner.check_run('git checkout "{}"'.format(revision.sha), cwd=self.path)
         except Exception:
             raise NoSuchRevision(repository=self, revision=revision)

@@ -130,8 +130,9 @@ class Punic(object):
                     schemes = [scheme for scheme in schemes if platform.device_sdk in scheme.supported_platform_names]
                     for scheme in schemes:
                         if not filter_dependency(platform, checkout, project, scheme):
-                            logging.warn('<err>Warning:</err> <sub>Skipping</sub>: {} / {} / {} / {}'.format(platform, checkout.identifier.project_name, project.path.name, scheme.name))
+                            logging.warn('<err>Skipping,</err> <sub>Skip formula</sub>: - [ {}, {}, {}, {} ]'.format(platform.name, checkout.identifier.project_name, project.path.name, scheme.name))
                             continue
+                        logging.info('<sub>Skip formula</sub>: - [ {}, {}, {}, {} ]'.format(platform.name, checkout.identifier.project_name, project.path.name, scheme.name))
                         self._build_one(platform, project, scheme.name, configuration)
 
     def _ordered_dependencies(self, name_filter=None):
